@@ -149,6 +149,8 @@ const scrollByPageKey = 'workbench.list.scrollByPage';
 const defaultFindMatchTypeSettingKey = 'workbench.list.defaultFindMatchType';
 const treeIndentKey = 'workbench.tree.indent';
 const treeRenderIndentGuidesKey = 'workbench.tree.renderIndentGuides';
+const treeRowHeightKey = 'workbench.tree.rowHeight';
+const treeFontSizeKey = 'workbench.tree.fontSize';
 const listSmoothScrolling = 'workbench.list.smoothScrolling';
 const mouseWheelScrollSensitivityKey = 'workbench.list.mouseWheelScrollSensitivity';
 const fastScrollSensitivityKey = 'workbench.list.fastScrollSensitivity';
@@ -1115,6 +1117,8 @@ function workbenchTreeDataPreamble<T, TFilterData, TOptions extends IAbstractTre
 			...workbenchListOptions,
 			indent: typeof configurationService.getValue(treeIndentKey) === 'number' ? configurationService.getValue(treeIndentKey) : undefined,
 			renderIndentGuides,
+			rowHeight: typeof configurationService.getValue(treeRowHeightKey) === 'number' ? configurationService.getValue(treeRowHeightKey) : undefined,
+			fontSize: typeof configurationService.getValue(treeFontSizeKey) === 'number' ? configurationService.getValue(treeFontSizeKey) : undefined,
 			smoothScrolling: Boolean(configurationService.getValue(listSmoothScrolling)),
 			defaultFindMode: getDefaultTreeFindMode(configurationService),
 			defaultFindMatchType: getDefaultTreeFindMatchType(configurationService),
@@ -1242,6 +1246,14 @@ class WorkbenchTreeInternals<TInput, T, TFilterData> {
 					const renderIndentGuides = configurationService.getValue<RenderIndentGuides>(treeRenderIndentGuidesKey);
 					newOptions = { ...newOptions, renderIndentGuides };
 				}
+				if (e.affectsConfiguration(treeRowHeightKey)) {
+					const rowHeight = configurationService.getValue<number>(treeRowHeightKey);
+					newOptions = { ...newOptions, rowHeight };
+				}
+				if (e.affectsConfiguration(treeFontSizeKey)) {
+					const fontSize = configurationService.getValue<number>(treeFontSizeKey);
+					newOptions = { ...newOptions, fontSize };
+				}
 				if (e.affectsConfiguration(listSmoothScrolling)) {
 					const smoothScrolling = Boolean(configurationService.getValue(listSmoothScrolling));
 					newOptions = { ...newOptions, smoothScrolling };
@@ -1366,6 +1378,20 @@ configurationRegistry.registerConfiguration({
 			enum: ['none', 'onHover', 'always'],
 			default: 'onHover',
 			description: localize('render tree indent guides', "Controls whether the tree should render indent guides.")
+		},
+		[treeRowHeightKey]: {
+			type: 'number',
+			default: 22,
+			minimum: 4,
+			maximum: 100,
+			description: localize('tree row height setting', "Controls tree row height in pixels.")
+		},
+		[treeFontSizeKey]: {
+			type: 'number',
+			default: 22,
+			minimum: 4,
+			maximum: 100,
+			description: localize('tree font size setting', "Controls tree font size in pixels.")
 		},
 		[listSmoothScrolling]: {
 			type: 'boolean',

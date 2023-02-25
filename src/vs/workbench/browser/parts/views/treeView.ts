@@ -1001,7 +1001,7 @@ class TreeViewIdentityProvider implements IIdentityProvider<ITreeItem> {
 class TreeViewDelegate implements IListVirtualDelegate<ITreeItem> {
 
 	getHeight(element: ITreeItem): number {
-		return TreeRenderer.ITEM_HEIGHT;
+		return 15;
 	}
 
 	getTemplateId(element: ITreeItem): string {
@@ -1047,7 +1047,7 @@ interface ITreeExplorerTemplateData {
 }
 
 class TreeRenderer extends Disposable implements ITreeRenderer<ITreeItem, FuzzyScore, ITreeExplorerTemplateData> {
-	static readonly ITEM_HEIGHT = 22;
+	readonly ITEM_HEIGHT: number;
 	static readonly TREE_TEMPLATE_ID = 'treeExplorer';
 
 	private _actionRunner: MultipleSelectionActionRunner | undefined;
@@ -1076,6 +1076,7 @@ class TreeRenderer extends Disposable implements ITreeRenderer<ITreeItem, FuzzyS
 		};
 		this._register(this.themeService.onDidFileIconThemeChange(() => this.rerender()));
 		this._register(this.themeService.onDidColorThemeChange(() => this.rerender()));
+		this.ITEM_HEIGHT = this.configurationService.getValue<number>('workbench.tree.rowHeight');
 	}
 
 	get templateId(): string {

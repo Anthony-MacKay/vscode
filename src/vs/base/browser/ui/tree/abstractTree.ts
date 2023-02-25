@@ -296,6 +296,8 @@ interface ITreeRendererOptions {
 	readonly renderIndentGuides?: RenderIndentGuides;
 	// TODO@joao replace this with collapsible: boolean | 'ondemand'
 	readonly hideTwistiesOfChildlessElements?: boolean;
+	readonly rowHeight?: number;
+	readonly fontSize?: number;
 }
 
 interface Collection<T> {

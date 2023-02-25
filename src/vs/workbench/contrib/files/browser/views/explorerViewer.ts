@@ -68,7 +68,7 @@ import { HoverPosition } from 'vs/base/browser/ui/hover/hoverWidget';
 
 export class ExplorerDelegate implements IListVirtualDelegate<ExplorerItem> {
 
-	static readonly ITEM_HEIGHT = 22;
+	static readonly ITEM_HEIGHT = 15;
 
 	getHeight(element: ExplorerItem): number {
 		return ExplorerDelegate.ITEM_HEIGHT;
